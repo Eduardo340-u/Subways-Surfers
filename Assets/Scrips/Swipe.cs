@@ -1,6 +1,4 @@
 using UnityEngine;
-using System.Collections;
-using UnityEngine.SceneManagement;
 using UnityEngine.Events;
 
 public class Swipe : MonoBehaviour
@@ -8,7 +6,7 @@ public class Swipe : MonoBehaviour
    [SerializeField]
    private bool isActive = true;
    [SerializeField]
-   private float minswipeDistance = 50f;
+   private float minSwipeDistance = 50f;
    [SerializeField]
    private UnityEvent onSwipeUp;
    [SerializeField]
@@ -26,28 +24,35 @@ public class Swipe : MonoBehaviour
         {
             startPosition = Input.mousePosition;
         }
+
         if (Input.GetMouseButtonUp(0))
         {
             Vector2 endposition = Input.mousePosition;
-            Vector2 swipeVcetor = endposition - startPosition;
-            if (swipeVcetor.magnitude >= minswipeDistance)
+            Vector2 swipeVector = endposition - startPosition;
+
+            if (swipeVector.magnitude >= minSwipeDistance)
             {
-                DetectSwiprDirection(swipeVcetor);
+                DetectSwipeDirection(swipeVector);
             }
         }
     }
-    private void DetectSwiprDirection(Vector2 swipeVector)
+    private void DetectSwipeDirection(Vector2 swipeVector)
     {
         float angle = Vector2.SignedAngle(Vector2.right, swipeVector);
+
         if (angle >= -45f && angle <= 45f)
         {
             onSwipeRigth?.Invoke();
         }
-        else if (angle >= 135f && angle <= 135f)
+        else if (angle > 45f && angle < 135f)
+        {
+            onSwipeUp?.Invoke();
+        }
+        else if (angle >= 135f || angle <= -135f)
         {
             onSwipeLeft?.Invoke();
         }
-        else if (angle > -45f && angle < 135f)
+        else if (angle < -45f && angle > -135f)
         {
             onSwipeDown?.Invoke();
         }
