@@ -18,10 +18,17 @@ public class Character : MonoBehaviour
     private bool isGrounded= true;
     private bool isMoving = false;
     private bool isRolling = false;
+    private bool isActive = false;
     private void Start()
     {
+        isActive = true;
         characterAnimator.Play(characterData.runAnimationName, 0, 0f);
         characterRigidbody = GetComponent<Rigidbody>();
+    }
+    public void Lose()
+    {
+        StopAllCoroutines();
+        characterAnimator.Play(characterData.loseAnimationName, 0, 0f);
     }
     public void Jump()
     {
@@ -54,7 +61,7 @@ public class Character : MonoBehaviour
     }
     private void Move(Vector3 direction)
     {
-        if (isMoving) return;
+        if (isMoving || !isActive) return;
         characterAnimator.Play(characterData.moveAnimationName, 0, 0f);
         isMoving= true;
         Vector3 targetPosition = transform.position + direction * distanceToMove;
@@ -71,7 +78,7 @@ public class Character : MonoBehaviour
     }
     public void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Ground"))
+        if (isActive && collision.gameObject.CompareTag("Ground"))
         {
             if (!isRolling)
             {
