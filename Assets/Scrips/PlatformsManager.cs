@@ -12,10 +12,19 @@ public class PlatformsManager : MonoBehaviour
     private float speed = 5f;
     private bool isRunning = true;
     private GameObject lastPlataform;
-    private void Start()
+    public void StartGame()
     {
+        InitializePlatforms();
         InstantiatePlatform(initialPlataforms);
         transform.position = platformsPivot.position;
+        isRunning = true;
+    }
+    private void InitializePlatforms()
+    {
+        foreach (var platform in platformPrefabs)
+        {
+            platform.DeactivateAllObjects();
+        }
     }
     public void InstantiatePlatform(int number)
     {
