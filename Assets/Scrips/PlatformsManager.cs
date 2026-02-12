@@ -14,6 +14,7 @@ public class PlatformsManager : MonoBehaviour
     private GameObject lastPlataform;
     public void StartGame()
     {
+        lastPlataform = null;
         InitializePlatforms();
         InstantiatePlatform(initialPlataforms);
         transform.position = platformsPivot.position;
