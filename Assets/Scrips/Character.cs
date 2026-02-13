@@ -24,6 +24,8 @@ public class Character : MonoBehaviour
     private UnityEvent onMoveToSide;
     [SerializeField]
     private UnityEvent onRoll;
+    [SerializeField]
+    private UnityEvent onLose;
     private bool isGrounded= true;
     private bool isMoving = false;
     private bool isRolling = false;
