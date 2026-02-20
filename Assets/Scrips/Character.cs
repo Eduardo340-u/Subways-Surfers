@@ -25,7 +25,9 @@ public class Character : MonoBehaviour
     [SerializeField]
     private UnityEvent onRoll;
     [SerializeField]
-    private UnityEvent onLose;
+    private Collider normalCollider;
+    [SerializeField]
+    private Collider rollCollider;
     private bool isGrounded= true;
     private bool isMoving = false;
     private bool isRolling = false;
@@ -36,10 +38,12 @@ public class Character : MonoBehaviour
     }
     public void StartGame()
     {
+        normalCollider.enabled = true;
+        rollCollider.enabled = false;
         isRolling = false;
         isMoving = false;
         isActive = true;
-        characterAnimator.Play(characterData.runAnimationName, 0, 0f);
+        characterAnimator.Play(characterData.jumpAnimationName, 0, 0f);
         transform.position= ChararacterStartPivot.position;
     }
     private void Start()
@@ -104,6 +108,8 @@ public class Character : MonoBehaviour
     {
         yield return new WaitForSeconds(characterAnimator.GetCurrentAnimatorStateInfo(0).length);
         isRolling = false;
+        normalCollider.enabled = true;
+        rollCollider.enabled = false;
     }
     public void OnCollisionEnter(Collision collision)
     {
