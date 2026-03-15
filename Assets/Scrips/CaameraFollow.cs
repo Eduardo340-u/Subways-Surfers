@@ -10,7 +10,7 @@ public class CaameraFollow : MonoBehaviour
     private void Start()
     {
         Vector3 initialPosition = transform.position;
-        offset = target.position - initialPosition;
+        offset=initialPosition - target.position;
     }
     private void LateUpdate()
     {
