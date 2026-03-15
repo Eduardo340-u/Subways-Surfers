@@ -10,7 +10,6 @@ public class Platform : MonoBehaviour
     {
         ActivateCoins();
     }
-
     private void ActivateCoins()
     {
         foreach (var coin in coins)

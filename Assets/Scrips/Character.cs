@@ -14,8 +14,8 @@ public class Character : MonoBehaviour
     private float jumpForce = 5f;
     public float JumpForce
     {
-        get{return jumpForce; }
-        set {jumpForce = value; }
+        get{ return jumpForce; }
+        set { jumpForce = value; }
     }
     [SerializeField]
     private float distanceToMove = 2f;
@@ -84,6 +84,8 @@ public class Character : MonoBehaviour
         characterAnimator.Play(characterData.rollAnimationName, 0, 0f);
         onRoll?.Invoke();
         isRolling = true;
+        normalCollider.enabled = false;
+        rollCollider.enabled = true;
         StartCoroutine(ResetRoll());
     }
     public void MoveLeft()
