@@ -54,14 +54,15 @@ public class PlatformsManager : MonoBehaviour
             Vector3 spawnPosition = Vector3.zero;
             if (lastPlataform !=null)
             {
-                spawnPosition = lastPlataform.transform.localPosition + lastPlataform.GetComponent<Collider>().bounds.size.z * Vector3.forward * 0.5f;
+                spawnPosition = lastPlataform.transform.localPosition + lastPlataform.GetComponent<Platform>().ColliderSize * Vector3.forward;
             }
             instantiatePool.InstantiateObject(spawnPosition);
-            GameObject newPlatform = instantiatePool.GetCurrentObject();
+            GameObject createdPlatform = instantiatePool.GetCurrentObject();
+            Platform newPlatform = instantiatePool.GetCurrentObject().GetComponent<Platform>();
             newPlatform.transform.SetParent(transform);
-            newPlatform.transform.localPosition = spawnPosition + newPlatform.GetComponent<Collider>().bounds.size.z * Vector3.forward * 0.5f;
-            lastPlataform = newPlatform;
-            onPlatformPassed?.Invoke(newPlatform.GetComponent<Platform>());
+            newPlatform.transform.localPosition = spawnPosition + newPlatform.ColliderSize * Vector3.forward;
+            lastPlataform = newPlatform.gameObject;
+            onPlatformPassed?.Invoke(newPlatform);
         }
     }
     private void Update() 
