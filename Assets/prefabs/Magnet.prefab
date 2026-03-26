@@ -9,9 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8444494740978383050}
+  - component: {fileID: -5413417811284406368}
+  - component: {fileID: -4312365992086316694}
   m_Layer: 0
   m_Name: Magnet
-  m_TagString: Untagged
+  m_TagString: Magnet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -32,6 +34,40 @@ Transform:
   - {fileID: 8803404887055755}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-5413417811284406368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6914064661067349045}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c435024ae53f9fb4b9fe49eb29ff2819, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Rotate
+  rotationSpeed: {x: 0, y: 80, z: 0}
+--- !u!65 &-4312365992086316694
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6914064661067349045}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: -0.48, y: -0.18, z: 0.13}
 --- !u!1001 &546624246187965024
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -99,55 +135,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1d805edd526a6ba47b60cf383f36a0e4, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2701027543708942572}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1d805edd526a6ba47b60cf383f36a0e4, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 19255736287311357}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d805edd526a6ba47b60cf383f36a0e4, type: 3}
 --- !u!4 &8803404887055755 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 1d805edd526a6ba47b60cf383f36a0e4, type: 3}
   m_PrefabInstance: {fileID: 546624246187965024}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &816442406309922609 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 1d805edd526a6ba47b60cf383f36a0e4, type: 3}
-  m_PrefabInstance: {fileID: 546624246187965024}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2701027543708942572
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 816442406309922609}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c435024ae53f9fb4b9fe49eb29ff2819, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Rotate
-  rotationSpeed: {x: 0, y: 0, z: 0}
---- !u!65 &19255736287311357
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 816442406309922609}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 2.55, y: 2.56, z: 1}
-  m_Center: {x: 0, y: 0.98, z: 0}
