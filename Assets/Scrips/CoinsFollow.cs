@@ -33,6 +33,7 @@ public class CoinsFollow : MonoBehaviour
             transform.position = Vector3.Lerp(transform.position, targetPosition, followSpeed * Time.deltaTime);
             if (Vector3.Distance(transform.position, targetPosition) < mininumDistance)
             {
+                player.GetComponent<PlayerCollider>()?.CollectCoin(gameObject);
                 player = null;
             }
         }
