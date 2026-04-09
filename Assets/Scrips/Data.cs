@@ -1,5 +1,5 @@
 using UnityEngine;
-
+ 
 [CreateAssetMenu(fileName = "Data", menuName = "Scriptable Objects/Data")]
 public class Data : ScriptableObject
 {
@@ -8,4 +8,6 @@ public class Data : ScriptableObject
     public string rollAnimationName = "Roll";
     public string loseAnimationName = "Lose";
     public string runAnimationName = "Run";
+    public string flyAnimationName = "Fly";
 }
+ 

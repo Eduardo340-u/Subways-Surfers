@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
-
+ 
 public class PlatformsManager : MonoBehaviour
 {
     [SerializeField]
@@ -10,7 +10,11 @@ public class PlatformsManager : MonoBehaviour
     [SerializeField]
     private InstantiatePoolObjects[] securePlatformPrefabs;
     [SerializeField]
-    private int initialPlataforms = 5;
+    private InstantiatePoolObjects[] flyingPlatformPrefabs;
+    [SerializeField]
+    private float flyingPlatformsHeight = 4.5f;
+    [SerializeField]
+    private int initialPlatforms = 5;
     [SerializeField]
     private float minSpeed = 5f;
     [SerializeField]
@@ -20,16 +24,16 @@ public class PlatformsManager : MonoBehaviour
     [SerializeField]
     private UnityEvent<Platform> onPlatformPassed;
     private bool isRunning = true;
-    private GameObject lastPlataform;
-    private int platformIstantiated = 0;
+    private GameObject lastPlatform;
+    private int platformsInstantiated = 0;
     private float speed;
     public void StartGame()
     {
         speed = minSpeed;
-        lastPlataform = null;
-        platformIstantiated = 0;
+        lastPlatform = null;
+        platformsInstantiated = 0;
         InitializePlatforms();
-        InstantiatePlatform(initialPlataforms);
+        InstantiatePlatform(initialPlatforms);
         transform.position = platformsPivot.position;
         isRunning = true;
     }
@@ -44,34 +48,45 @@ public class PlatformsManager : MonoBehaviour
             securePlatform.DeactivateAllObjects();
         }
     }
-    public void InstantiatePlatform(int number)
+    public void InstantiateFlyingPlatform(Transform character)
     {
-        for (int i=0; i < number; i++)
+        InstantiatePoolObjects instantiatePool = flyingPlatformPrefabs[Random.Range(0, flyingPlatformPrefabs.Length)];
+        Vector3 spawnPosition = character.position - transform.position + Vector3.forward * 2f;
+        instantiatePool.InstantiateObject(spawnPosition);
+        GameObject createdPlatform = instantiatePool.GetCurrentObject();
+        spawnPosition.x=0f;
+        Platform newPlatform = createdPlatform.GetComponent<Platform>();
+        newPlatform.transform.SetParent(transform);
+        newPlatform.transform.localPosition = spawnPosition + newPlatform.ColliderSize * Vector3.forward + Vector3.up * flyingPlatformsHeight;
+    }
+    public void InstantiatePlatform (int number)
+    {
+        for (int i = 0; i < number; i++)
         {
             InstantiatePoolObjects instantiatePool;
-            if (platformIstantiated < 2)
+            if (platformsInstantiated < 2)
             {
                 instantiatePool = securePlatformPrefabs[Random.Range(0, securePlatformPrefabs.Length)];
-            } else
+            }else
             {
                 instantiatePool = platformPrefabs[Random.Range(0, platformPrefabs.Length)];
             }
-            platformIstantiated++;
+            platformsInstantiated++;
             Vector3 spawnPosition = Vector3.zero;
-            if (lastPlataform !=null)
+            if (lastPlatform != null)
             {
-                spawnPosition = lastPlataform.transform.localPosition + lastPlataform.GetComponent<Platform>().ColliderSize * Vector3.forward;
+                spawnPosition = lastPlatform.transform.localPosition + lastPlatform.GetComponent<Platform>().ColliderSize * Vector3.forward;
             }
             instantiatePool.InstantiateObject(spawnPosition);
-            GameObject createPlatform = instantiatePool.GetCurrentObject();
-            Platform newPlatform = instantiatePool.GetCurrentObject().GetComponent<Platform>();
+            GameObject createdPlatform = instantiatePool.GetCurrentObject();
+            Platform newPlatform = createdPlatform.GetComponent<Platform>();
             newPlatform.transform.SetParent(transform);
             newPlatform.transform.localPosition = spawnPosition + newPlatform.ColliderSize * Vector3.forward;
-            lastPlataform = newPlatform.gameObject;
+            lastPlatform = newPlatform.gameObject;
             onPlatformPassed?.Invoke(newPlatform);
         }
     }
-    private void Update() 
+    private void Update()
     {
         if (isRunning)
         {
@@ -79,6 +94,7 @@ public class PlatformsManager : MonoBehaviour
             speed = Mathf.Min(speed + acceleration * Time.deltaTime, maxSpeed);
         }
     }
+ 
     public void StopPlatforms()
     {
         isRunning = false;

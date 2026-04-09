@@ -2,7 +2,7 @@ using UnityEngine;
 using DG. Tweening;
 using System.Collections;
 using UnityEngine.Events;
-
+ 
 public class Character : MonoBehaviour
 {
     private Rigidbody characterRigidbody;
@@ -14,7 +14,7 @@ public class Character : MonoBehaviour
     private float jumpForce = 5f;
     public float JumpForce
     {
-        get{ return jumpForce; }
+        get { return jumpForce; }
         set { jumpForce = value; }
     }
     [SerializeField]
@@ -22,7 +22,7 @@ public class Character : MonoBehaviour
     [SerializeField]
     private float moveDuration = 0.2f;
     [SerializeField]
-    private Transform ChararacterStartPivot;
+    private Transform characterStartPivot;
     [SerializeField]
     private UnityEvent onJump;
     [SerializeField]
@@ -37,6 +37,21 @@ public class Character : MonoBehaviour
     private bool isMoving = false;
     private bool isRolling = false;
     private bool isActive = false;
+    private bool isFlying = false;
+    public bool IsFlying
+    {
+        get { return isFlying; }
+        set { isFlying = value; }
+    }
+    public Data CharacterData => characterData;
+    public Rigidbody CharacterRigidbody => characterRigidbody;
+    public Animator CharacterAnimator => characterAnimator;
+    public bool IsActive => isActive;
+    public void PlayGroundAnimation(string animationName)
+    {
+        if (isFlying) return;
+        characterAnimator.Play(animationName, 0, 0f);
+    }
     private void Awake()
     {
         characterRigidbody = GetComponent<Rigidbody>();
@@ -49,13 +64,7 @@ public class Character : MonoBehaviour
         isMoving = false;
         isActive = true;
         characterAnimator.Play(characterData.jumpAnimationName, 0, 0f);
-        transform.position= ChararacterStartPivot.position;
-    }
-    private void Start()
-    {
-        isActive = true;
-        characterAnimator.Play(characterData.runAnimationName, 0, 0f);
-        characterRigidbody = GetComponent<Rigidbody>();
+        transform.position = characterStartPivot.position;
     }
     public void Lose()
     {
@@ -65,23 +74,23 @@ public class Character : MonoBehaviour
     }
     public void Jump()
     {
-        if (!isActive) return;
-        if (isGrounded)
+        if (!isActive || isFlying) return;
+        if(isGrounded)
         {
             onJump?.Invoke();
-            characterAnimator.Play(characterData.jumpAnimationName, 0, 0f);
+            PlayGroundAnimation(characterData.jumpAnimationName);
             characterRigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             isGrounded = false;
         }
     }
     public void MoveDown()
     {
-        if (!isActive || isRolling) return;
+        if (!isActive || isRolling || isFlying) return;
         if (!isGrounded)
         {
             characterRigidbody.AddForce(Vector3.down * jumpForce * 2, ForceMode.Impulse);
         }
-        characterAnimator.Play(characterData.rollAnimationName, 0, 0f);
+        PlayGroundAnimation(characterData.rollAnimationName);
         onRoll?.Invoke();
         isRolling = true;
         normalCollider.enabled = false;
@@ -102,13 +111,13 @@ public class Character : MonoBehaviour
     {
         if (isMoving || !isActive) return;
         onMoveToSide?.Invoke();
-        characterAnimator.Play(characterData.moveAnimationName, 0, 0f);
+        PlayGroundAnimation(characterData.moveAnimationName);
         isMoving= true;
         Vector3 targetPosition = transform.position + direction * distanceToMove;
-
+ 
         transform.DOMove(targetPosition, moveDuration).SetEase(Ease.OutQuad).OnComplete(()=>
         {
-           isMoving = false; 
+           isMoving = false;
         });
     }
     private IEnumerator ResetRoll()
@@ -131,3 +140,4 @@ public class Character : MonoBehaviour
         }
     }
 }
+ 

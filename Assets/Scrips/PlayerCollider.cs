@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
-
+ 
 public class PlayerCollider : MonoBehaviour
 {
     [SerializeField]
@@ -10,6 +10,10 @@ public class PlayerCollider : MonoBehaviour
     [SerializeField]
     private string jumpPowerUpTag = "JumpPowerUp";
     [SerializeField]
+    private string jetpackTag = "Jetpack";
+    [SerializeField]
+    private UnityEvent<Transform> onJetpackCollected;
+    [SerializeField]
     private UnityEvent<Transform> onMagnetCollected;
     [SerializeField]
     private UnityEvent<Transform> onObstacleCollision;
@@ -17,7 +21,7 @@ public class PlayerCollider : MonoBehaviour
     private UnityEvent<Transform> onJumpPowerUpCollected;
     [SerializeField]
     private UnityEvent<Transform> onCoinCollected;
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter (Collider other)
     {
         if (other.CompareTag(obstacleTag))
         {
@@ -35,6 +39,11 @@ public class PlayerCollider : MonoBehaviour
         else if (other.CompareTag("Magnet"))
         {
             onMagnetCollected?.Invoke(transform);
+            other.gameObject.SetActive(false);
+        }
+        else if (other.CompareTag(jetpackTag))
+        {
+            onJetpackCollected?.Invoke(transform);
             other.gameObject.SetActive(false);
         }
     }
